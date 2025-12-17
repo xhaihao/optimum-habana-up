@@ -499,6 +499,13 @@ class GaudiStableDiffusionZImagePipeline(GaudiDiffusionPipeline, ZImagePipeline)
                     "`negative_prompt_embeds` must also be provided for classifier-free guidance."
                 )
         else:
+            print(prompt)
+            print(negative_prompt)
+            print(self.do_classifier_free_guidance)
+            print(prompt_embeds)
+            print(negative_prompt_embeds)
+            print(device)
+            print(max_sequence_length)
             (
                 prompt_embeds,
                 negative_prompt_embeds,
