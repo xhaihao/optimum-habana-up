@@ -150,9 +150,9 @@ def QwenImageTransformer2DModelGaudi(
         guidance = guidance.to(hidden_states.dtype) * 1000
 
     temb = (
-        self.time_text_embed(timestep, hidden_states, additional_t_cond)
+        self.time_text_embed(timestep, hidden_states)
         if guidance is None
-        else self.time_text_embed(timestep, guidance, hidden_states, additional_t_cond)
+        else self.time_text_embed(timestep, guidance, hidden_states)
     )
 
     (vid_freqs_cos, vid_freqs_sin), (txt_freqs_cos, txt_freqs_sin) = self.pos_embed(
