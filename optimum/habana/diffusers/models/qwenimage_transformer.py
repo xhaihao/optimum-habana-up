@@ -133,7 +133,7 @@ def QwenImageTransformer2DModelGaudi(
 
     timestep = timestep.to(hidden_states.dtype)
 
-    if self.zero_cond_t:
+    if hasattr(self, 'zero_cond_t') and self.zero_cond_t:
         timestep = torch.cat([timestep, timestep * 0], dim=0)
         modulate_index = torch.tensor(
             [[0] * prod(sample[0]) + [1] * sum([prod(s) for s in sample[1:]]) for sample in img_shapes],
@@ -252,7 +252,7 @@ def QwenImageTransformer2DModelGaudi(
 
         hidden_states = hidden_states[:, :-pad_len_img, :] if pad_len_img > 0 else hidden_states
 
-    if self.zero_cond_t:
+    if hasattr(self, 'zero_cond_t') and self.zero_cond_t:
         temb = temb.chunk(2, dim=0)[0]
 
     # Use only the image part (hidden_states) from the dual-stream blocks
@@ -288,7 +288,7 @@ def QwenImageTransformerBlockForwardGaudi(
     # Get modulation parameters for both streams
     img_mod_params = self.img_mod(temb)  # [B, 6*dim]
 
-    if self.zero_cond_t:
+    if hasattr(self, 'zero_cond_t') and self.zero_cond_t:
         temb = torch.chunk(temb, 2, dim=0)[0]
     txt_mod_params = self.txt_mod(temb)  # [B, 6*dim]
 
